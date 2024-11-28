@@ -1,32 +1,50 @@
-// import DraggableEvent from "../components/DraggableEvent";
 import DroppableHourSlot from "../components/DroppableHourSlot";
 import styles from "../styles/weeklycal.module.css";
 import { getDaysOfWeek } from "../utils/dateFns.js";
-import React, { useState, useCallback } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
+import SchedulePopup from "../components/SchedulePopup.jsx";
 
 const WeeklyCalendar = () => {
+  const cellRef = useRef(null);
+  const [cellHeight, setCellHeight] = useState(0);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [numEvents, setNumEvents] = useState(0);
+  const [popup, setPopup] = useState(false);
   const [events, setEvents] = useState([
-    { 
-      id: 1, 
-      title: 'Team Meeting', 
-      start: new Date(2024, 0, 15, 10, 10), 
-      end: new Date(2024, 0, 15, 12, 0),
-      color: 'blue'
-    },
-    { 
-      id: 2, 
-      title: 'Product Review', 
-      start: new Date(2024, 0, 15, 10, 10), 
-      end: new Date(2024, 0, 15, 12, 0),
-      color: 'green'
-    }
+    // { 
+    //   id: 1, 
+    //   title: 'Team Meeting', 
+    //   start: new Date(2024, 10, 28, 3, 0), 
+    //   end: new Date(2024, 10, 28, 15, 0),
+    //   color: 'blue'
+    // },
+    // { 
+    //   id: 2, 
+    //   title: 'Product Review', 
+    //   start: new Date(2024, 10, 28, 10, 0), 
+    //   end: new Date(2024, 10, 28, 12, 0),
+    //   color: 'green'
+    // }
   ]);
 
-  const daysOfWeek = getDaysOfWeek(currentDate);
+  useEffect(() => {
+    const updateHeight = () => {
+      if (cellRef.current) {
+        // console.log(cellRef.current.offsetHeight);
+        setCellHeight(cellRef.current.offsetHeight);
+      }
+    }
+
+    window.addEventListener("resize", updateHeight);
+    updateHeight();
+
+    return () => {
+      window.removeEventListener("resize", updateHeight);
+    }
+  }, [cellHeight]);
+
+  let daysOfWeek = getDaysOfWeek(currentDate);
   const hourSlots = Array.from({ length: 24 }, (_, hour) => hour);
 
   // Move event to a new time slot
@@ -44,6 +62,7 @@ const WeeklyCalendar = () => {
   const moveWeek = (direction) => {
     const newDate = new Date(currentDate);
     newDate.setDate(newDate.getDate() + (direction * 7));
+    daysOfWeek = getDaysOfWeek(newDate);
     setCurrentDate(newDate);
   };
 
@@ -51,14 +70,15 @@ const WeeklyCalendar = () => {
   const renderEventsForSlot = (day, hour) => {
     return events.filter(event => 
       event.start.getDate() === day.getDate() && 
-      event.start.getHours() === hour
+      event.start.getHours() === hour && 
+      event.start.getFullYear() === day.getFullYear() &&
+      event.start.getMonth() === day.getMonth()
     );
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
       <div className={styles.weeklyCalendar}>
-        {/* Header (same as previous version) */}
+        {/* Header */}
         <div className={styles.calendarHeader}>
           <button onClick={() => moveWeek(-1)} className={styles.navButton}>
             <ChevronLeft />
@@ -73,10 +93,14 @@ const WeeklyCalendar = () => {
           </button>
         </div>
 
-        {/* Day and Date Header (same as previous version) */}
+        {/* Day and Date Header */}
         <div className={styles.daysHeader}>
           <div className={styles.hourSpacer}>
-            <Plus />
+            <Plus 
+              onClick={() => {
+                setPopup(true);
+              }}
+            />
           </div>
           {daysOfWeek.map((day) => (
             <div key={day.toISOString()} className={styles.dayColumn}>
@@ -100,22 +124,30 @@ const WeeklyCalendar = () => {
             ))}
           </div>
           
-          {daysOfWeek.map((day) => (
+          {daysOfWeek.map((day, indexD) => (
             <div className={styles.dayGridColumn}>
-              {hourSlots.map((hour) => (
+              {hourSlots.map((hour, indexH) => (
                 <DroppableHourSlot
                   key={hour}
                   day={day}
                   hour={hour}
                   events={renderEventsForSlot(day, hour)}
                   onEventMove={handleEventMove}
+                  cellSize={cellHeight}
+                  ref={(indexD === 1 && indexH === 1 ? cellRef : null)}
                 />
               ))}
             </div>
           ))}
         </div>
+        <SchedulePopup 
+          trigger={popup}
+          setEvents={setEvents}
+          numEvents={numEvents}
+          setNumEvents={setNumEvents}
+          setPopup={setPopup}
+        />
       </div>
-    </DndProvider>
   );
 };
 

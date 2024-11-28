@@ -1,0 +1,127 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  z-index: 2;
+}
+
+.eventSchedulingCard {
+  position: relative;
+  width: 50%;
+  height: 50%;
+  border: 1px solid #e0e0e0;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.eventCardHeader {
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.minimize > * {
+  transition: all 0.2s ease;
+}
+
+.minimize:hover > * {
+  transform: scale(1.1);
+}
+
+.minimize:active > * {
+  transform: scale(0.9);
+}
+
+.eventCardHeader h2 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.eventCardContent {
+  padding: 20px;
+  width: 90%;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.formControl {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.timeGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+.timeGroup .formGroup {
+  flex: 1;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+  border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 12px; 
+  border: 2px solid white;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

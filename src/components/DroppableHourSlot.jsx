@@ -8,7 +8,8 @@ const EventTypes = {
 };
 
 // Droppable Hour Slot Component
-const DroppableHourSlot = ({ day, hour, events, onEventMove }) => {
+const DroppableHourSlot = React.forwardRef(( props, ref ) => {
+  const { day, hour, events, onEventMove, cellSize } = props;
   const [{ isOver }, drop] = useDrop({
     accept: EventTypes.EVENT,
     drop: (item) => {
@@ -28,20 +29,34 @@ const DroppableHourSlot = ({ day, hour, events, onEventMove }) => {
     })
   });
 
+  const mergeRefs = (...refs) => (element) => {
+    refs.forEach((ref1) => {
+      if (typeof ref1 === 'function') {
+        ref1(element);
+      } else if (ref) {
+        ref1.current = element;
+      }
+    });
+  }
+
   return (
     <div 
-      ref={drop}
-      className={`${styles.hourGridSlot} ${isOver ? 'bg-blue-50' : ''}`}
+      ref={mergeRefs(ref, drop)}
+      className={`${styles.hourGridSlot}`}
+      style={{
+        backgroundColor: isOver ? "#E3F2FD" : 'transparent',
+      }}
     >
       {events.map((event) => (
         <DraggableEvent 
           key={event.id} 
           event={event} 
           onEventMove={onEventMove} 
+          cellSize={cellSize}
         />
       ))}
     </div>
   );
-};
+});
 
 export default DroppableHourSlot;

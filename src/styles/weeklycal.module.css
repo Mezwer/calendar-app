@@ -18,7 +18,7 @@
   border: none;
   cursor: pointer;
   padding: 0.5rem;
-  border-radius: 50%;
+  border-radius: 15px;
   transition: background-color 0.2s;
 }
 
@@ -44,6 +44,7 @@
   justify-content: center;
   align-items: center;
   display: flex;
+  padding: 0;
 }
 
 .hourSpacer > * {

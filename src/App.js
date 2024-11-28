@@ -1,12 +1,14 @@
 
 import './App.css';
 import WeeklyCalendar from './pages/WeeklyCalendar.jsx';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
   return (
-    <div>
-     <WeeklyCalendar />
-    </div>
+    <DndProvider backend={HTML5Backend}>
+      <WeeklyCalendar />
+    </DndProvider>
   );
 }
 
