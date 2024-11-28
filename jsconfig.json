@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "styles/*": ["./styles/*"],
+      "components/*": ["./components/*"]
+    },
+    "allowImportingTsExtensions": true,
+    "jsx": "react"
+  },
+  "include": ["src/**/*"]
+}
