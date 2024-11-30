@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: center;
   opacity: 1;
-  z-index: 2;
+  z-index: 100;
 }
 
 .eventSchedulingCard {
@@ -24,6 +24,7 @@
   flex-direction: column;
   overflow: auto;
   overflow-x: hidden;
+  z-index: 101;
 }
 
 .eventCardHeader {

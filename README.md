@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# Public URL
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This app was deployed with Vercel, so you can visit the public page here:
+https://calendar-app-beryl.vercel.app/
 
-## Available Scripts
+# Setup
 
-In the project directory, you can run:
+You can set this project up yourself locally very quickly, but you need to make sure that you have a 
+OpenAI key to use the AI feature for this project. Once you have that, make a `.env` file in the root 
+directory after you clone the repo, and follow this format:
 
-### `npm start`
+```
+REACT_APP_OPENAPIKEY={key}
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Use these commands to set up the project:
+```
+git clone https://github.com/Mezwer/calendar-app.git
+npm install
+npm start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Overview
 
-### `npm test`
+This app has a few core features, which include drag and drop calendar events, priority resolution, and an AI assistant.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You can make events manually with the `+` button in the top left, and they will show up on the calendar. You can navigate with the arrow
+keys on either side of the month and year. The calendar is in a weekly view, with 7 columns representing days and 24 rows per column
+representing each hour of the day.
 
-### `npm run build`
+## Drag and Drop Events
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+One of the main features of this calendar is the drag and drop events, which allow you to grab any event and change the time
+of the event easily within the week by dragging it to any cell. 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Events can also be deleted by clicking the trash button on the bottom right of the event.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Priorities
 
-### `npm run eject`
+Events are differentiated by priority by their color and an icon. The lowest priority is "Low", which has a blue color, and the highest priority is "Urgent", which is a red color. They also have different symbols indicating their priority. 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+One of the features associated with the priorities is priority resolution. If there are multiple overlapping events, you can click the
+calendar sync icon in the functions group on the top left of the calendar. This will automatically resolve conflicts with a pre-determined algorithm. It works by first trying to trim the events based on priority (lower priority events will be trimmed to make room for higher priority events) or even splitting events if necessary.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## AI Assistant
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The AI assistant can be prompted by clicking the robot icon. You can type a prompt in, such as "Schedule my interview tomorrow, 10am to 11am", and the AI assistant will automatically create the event and place it on your calendar for you. You can do various other things, such
+as "Reschedule my dentist appointment to tomorrow 11am to 1pm" or "Delete the interview that's on November 10th". 

@@ -8,8 +8,8 @@ const EventTypes = {
   EVENT: 'event'
 };
 
-const DraggableEvent = ({ event, onEventMove, cellSize, setEvents }) => {
-  const [ {isDragging}, drag, dragPreview] = useDrag({
+const DraggableEvent = ({ event, cellSize, setEvents }) => {
+  const [ {isDragging}, drag ] = useDrag({
     type: EventTypes.EVENT,
     item: { 
       id: event.id, 

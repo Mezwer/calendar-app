@@ -2,7 +2,6 @@ import React from 'react';
 import styles from "../styles/droppable.module.css";
 import DraggableEvent from './DraggableEvent';
 import { useDrop } from 'react-dnd';
-import { handleConflicts } from '../utils/dateFns';
 
 const EventTypes = {
   EVENT: 'event'

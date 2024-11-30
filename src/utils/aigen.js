@@ -1,6 +1,6 @@
 import { OpenAI } from "openai";
 
-const openai = new OpenAI({ apiKey: process.env.REACT_APP_OPENAIKEY, dangerouslyAllowBrowser: true });
+const openai = new OpenAI({ apiKey: process.env.OPENAIKEY, dangerouslyAllowBrowser: true });
 
 export const eventMake = async (message, objects) => {
   const today = new Date();
@@ -15,8 +15,8 @@ export const eventMake = async (message, objects) => {
           You might return a json object, which will be in this format:
           {
             title: "title of event",
-            start: "start of event, which is a javascript date object"
-            end: "end of event, which is a javascript date object on the same day as start, and time must be after start",
+            start: "start of event, which is a javascript date object. times start from 12am and end at 11pm"
+            end: "end of event, which is a javascript date object on the same day as start, and time must be after start. should not go after 11pm",
             priority: "priority of event, either "Low", "Medium", "High", or "Urgent",
             id: "only for if the user wants to modify an existing object, then it will be an id from a list of given json objects. otherwise, set to null",
             location: "only if user gives a location. otherwise, set to null"

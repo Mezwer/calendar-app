@@ -31,8 +31,8 @@ const TextField = ({ gen, setGen, events, setEvents, numEvents, setNumEvents }) 
         
         let newEvent;
         if (event["id"] === null) {
+          setNumEvents(prev => prev + 1);
           newEvent = createEventObject(event, false, numEvents);
-          setNumEvents(numEvents + 1);
           setEvents(prev => [...prev, newEvent]);
         } else if (Object.prototype.hasOwnProperty.call(event, 'start')) {
           const id = event.id;
@@ -47,7 +47,7 @@ const TextField = ({ gen, setGen, events, setEvents, numEvents, setNumEvents }) 
 
     window.addEventListener('keydown', enter);
     return () => window.removeEventListener('keydown', enter);
-  }, [searchTerm]);
+  }, [searchTerm, numEvents]);
 
   return (gen) ? (
     <div className={styles.container}>

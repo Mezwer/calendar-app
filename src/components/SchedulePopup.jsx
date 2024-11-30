@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Minimize2 } from 'lucide-react';
 import styles from '../styles/schedulepopup.module.css';
 import { createEventObject } from '../utils/dateFns';
@@ -14,6 +14,17 @@ const SchedulePopup = ({ trigger, setEvents, numEvents, setNumEvents, setPopup }
     description: '',
     priority: '',
   });
+
+  useEffect(() => {
+    const keyHandler = (e) => {
+      if(e.keyCode === 27){
+        setPopup(false);
+      }
+    }
+
+    window.addEventListener('keydown', keyHandler);
+    return () => window.removeEventListener('keydown', keyHandler);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
