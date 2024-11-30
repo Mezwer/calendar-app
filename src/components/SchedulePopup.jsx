@@ -143,17 +143,6 @@ const SchedulePopup = ({ trigger, setEvents, numEvents, setNumEvents, setPopup }
             />
           </div>
 
-          <div className={styles.formGroup}>
-            <label>Description</label>
-            <textarea
-              name="description"
-              placeholder="Enter event details"
-              value={eventDetails.description}
-              onChange={handleInputChange}
-              className={`${styles.formControl} ${styles.textarea}`}
-            />
-          </div>
-
           <button 
             className={styles.submitButton}
             onClick={handleSubmit}
