@@ -4,31 +4,79 @@
   right: 2px;
   border-radius: 4px;
   padding: 0.25rem;
-  overflow: hidden;
   z-index: 10;
+  pointer-events: auto;
+  max-width: 100%;
+  opacity: 1;
 }
 
 .eventBlue {
   background-color: rgba(59, 130, 246, 0.2);
   color: #1e40af;
+  mix-blend-mode: normal;
 }
 
 .eventGreen {
   background-color: rgba(34, 197, 94, 0.2);
   color: #166534;
+  mix-blend-mode: normal;
+}
+
+.eventYellow {
+  background-color: rgba(255, 215, 0, 0.2);
+  color: #5a6a15;
+  mix-blend-mode: normal;
+}
+
+.eventRed {
+  background-color: rgba(255, 0, 0, 0.3);
+  color: #6a1515;
+  mix-blend-mode: normal;
 }
 
 .eventTitle {
-  font-weight: 600;
-  font-size: 0.75rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.eventTime {
+.eventTitle > span {
+  font-weight: 600;
+  font-size: 0.75rem;
+  /* white-space: nowrap; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80%;
+}
+
+.eventInfo {
   font-size: 0.625rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.trash {
+  position: absolute;
+  bottom: 0.25rem;
+  right: 0.25rem;
+  transition: all 0.1s;
+}
+
+.trash:hover {
+  transform: scale(1.1);
+  filter: brightness(100%);
+}
+
+.trash:active {
+  transform: scale(0.9);
+}
+
+.grip {
+  position: absolute;
+  top: -6px;
+  left: 50%; /* Center it horizontally */
+  transform: translateX(-50%); /* Adjust to truly center horizontally */
+  cursor: grab;
 }

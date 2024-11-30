@@ -2,6 +2,7 @@ import React from 'react';
 import styles from "../styles/droppable.module.css";
 import DraggableEvent from './DraggableEvent';
 import { useDrop } from 'react-dnd';
+import { handleConflicts } from '../utils/dateFns';
 
 const EventTypes = {
   EVENT: 'event'
@@ -9,7 +10,7 @@ const EventTypes = {
 
 // Droppable Hour Slot Component
 const DroppableHourSlot = React.forwardRef(( props, ref ) => {
-  const { day, hour, events, onEventMove, cellSize } = props;
+  const { day, hour, events, onEventMove, cellSize, setEvents } = props;
   const [{ isOver }, drop] = useDrop({
     accept: EventTypes.EVENT,
     drop: (item) => {
@@ -49,10 +50,10 @@ const DroppableHourSlot = React.forwardRef(( props, ref ) => {
     >
       {events.map((event) => (
         <DraggableEvent 
-          key={event.id} 
           event={event} 
           onEventMove={onEventMove} 
           cellSize={cellSize}
+          setEvents={setEvents}
         />
       ))}
     </div>

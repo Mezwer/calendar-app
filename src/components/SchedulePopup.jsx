@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Minimize2 } from 'lucide-react';
 import styles from '../styles/schedulepopup.module.css';
+import { createEventObject } from '../utils/dateFns';
 
 
 const SchedulePopup = ({ trigger, setEvents, numEvents, setNumEvents, setPopup }) => {
@@ -11,6 +12,7 @@ const SchedulePopup = ({ trigger, setEvents, numEvents, setNumEvents, setPopup }
     endTime: '',
     location: '',
     description: '',
+    priority: '',
   });
 
   const handleInputChange = (e) => {
@@ -28,35 +30,11 @@ const SchedulePopup = ({ trigger, setEvents, numEvents, setNumEvents, setPopup }
     }));
   };
 
-  const createEventObject = () => {
-    let eventObj = {
-      id: numEvents + 1,
-      title: eventDetails.title,
-      color: 'blue'
-    };
-
-    eventObj.start = new Date(eventDetails.date.getTime());
-    eventObj.end = new Date(eventDetails.date.getTime());
-
-    let hour = Number(eventDetails.startTime.slice(0, 2));
-    let minute = Number(eventDetails.startTime.slice(3, 5));
-    eventObj.start.setHours(hour);
-    eventObj.start.setMinutes(minute);
-
-    hour = Number(eventDetails.endTime.slice(0, 2));
-    minute = Number(eventDetails.endTime.slice(3, 5));
-    eventObj.end.setHours(hour);
-    eventObj.end.setMinutes(minute);
-
-    return eventObj;
-  }
-
   const handleSubmit = () => {
-    const newEvent = createEventObject();
+    const newEvent = createEventObject(eventDetails, true, numEvents);
     setNumEvents(prev => prev + 1);
     setEvents(events => [...events, newEvent]);
     setPopup(false);
-    console.log(newEvent);
   };
 
   return (trigger) ? (
@@ -77,6 +55,7 @@ const SchedulePopup = ({ trigger, setEvents, numEvents, setNumEvents, setPopup }
             <input 
               id="title"
               name="title"
+              type="text"
               placeholder="Enter event title"
               value={eventDetails.title}
               onChange={handleInputChange}
@@ -123,8 +102,28 @@ const SchedulePopup = ({ trigger, setEvents, numEvents, setNumEvents, setPopup }
           </div>
 
           <div className={styles.formGroup}>
+            <label>Event Priority</label>
+            <select 
+              value={eventDetails.priority}
+              onChange={(e) => setEventDetails(prev => ({
+                ...prev,
+                priority: e.target.value
+              }))}
+              className={styles.formControl}
+            >
+              <option value="" style={{fontWeight: 100}}>Select category</option>
+              
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+              <option value="Urgent">Urgent</option>
+            </select>
+          </div>
+
+          <div className={styles.formGroup}>
             <label>Location</label>
             <input 
+              type="text"
               name="location"
               placeholder="Enter event location"
               value={eventDetails.location}
@@ -135,7 +134,7 @@ const SchedulePopup = ({ trigger, setEvents, numEvents, setNumEvents, setPopup }
 
           <div className={styles.formGroup}>
             <label>Description</label>
-            <textarea 
+            <textarea
               name="description"
               placeholder="Enter event details"
               value={eventDetails.description}

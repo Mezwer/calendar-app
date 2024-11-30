@@ -1,9 +1,10 @@
 import DroppableHourSlot from "../components/DroppableHourSlot";
 import styles from "../styles/weeklycal.module.css";
-import { getDaysOfWeek } from "../utils/dateFns.js";
+import { getDaysOfWeek, handleConflicts } from "../utils/dateFns.js";
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Bot, CalendarSync } from 'lucide-react';
 import SchedulePopup from "../components/SchedulePopup.jsx";
+import TextField from "../components/TextField.jsx";
 
 const WeeklyCalendar = () => {
   const cellRef = useRef(null);
@@ -11,27 +12,12 @@ const WeeklyCalendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [numEvents, setNumEvents] = useState(0);
   const [popup, setPopup] = useState(false);
-  const [events, setEvents] = useState([
-    // { 
-    //   id: 1, 
-    //   title: 'Team Meeting', 
-    //   start: new Date(2024, 10, 28, 3, 0), 
-    //   end: new Date(2024, 10, 28, 15, 0),
-    //   color: 'blue'
-    // },
-    // { 
-    //   id: 2, 
-    //   title: 'Product Review', 
-    //   start: new Date(2024, 10, 28, 10, 0), 
-    //   end: new Date(2024, 10, 28, 12, 0),
-    //   color: 'green'
-    // }
-  ]);
+  const [gen, setGen] = useState(false);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     const updateHeight = () => {
       if (cellRef.current) {
-        // console.log(cellRef.current.offsetHeight);
         setCellHeight(cellRef.current.offsetHeight);
       }
     }
@@ -101,9 +87,20 @@ const WeeklyCalendar = () => {
                 setPopup(true);
               }}
             />
+            <Bot 
+              onClick={() => {
+                setGen(true);
+              }}
+            />
+            <CalendarSync 
+              onClick={() => {
+                const newEvents = handleConflicts(events, numEvents, setNumEvents);
+                setEvents(newEvents);
+              }}
+            />
           </div>
           {daysOfWeek.map((day) => (
-            <div key={day.toISOString()} className={styles.dayColumn}>
+            <div className={styles.dayColumn}>
               <div className={styles.dayName}>{day.toLocaleDateString('default', { weekday: 'short' })}</div>
               <div className={styles.dayDate}>{day.getDate()}</div>
             </div>
@@ -115,7 +112,7 @@ const WeeklyCalendar = () => {
           {/* Hour Column */}
           <div className={styles.hoursColumn}>
             {hourSlots.map((hour) => (
-              <div key={hour} className={styles.hourSlot}>
+              <div className={styles.hourSlot}>
                 {hour === 0 ? '12 AM' : 
                  hour < 12 ? `${hour} AM` : 
                  hour === 12 ? '12 PM' : 
@@ -128,13 +125,13 @@ const WeeklyCalendar = () => {
             <div className={styles.dayGridColumn}>
               {hourSlots.map((hour, indexH) => (
                 <DroppableHourSlot
-                  key={hour}
                   day={day}
                   hour={hour}
                   events={renderEventsForSlot(day, hour)}
                   onEventMove={handleEventMove}
                   cellSize={cellHeight}
                   ref={(indexD === 1 && indexH === 1 ? cellRef : null)}
+                  setEvents={setEvents}
                 />
               ))}
             </div>
@@ -146,6 +143,14 @@ const WeeklyCalendar = () => {
           numEvents={numEvents}
           setNumEvents={setNumEvents}
           setPopup={setPopup}
+        />
+        <TextField 
+          gen={gen}
+          setGen={setGen}
+          events={events}
+          setEvents={setEvents}
+          numEvents={numEvents}
+          setNumEvents={setNumEvents}
         />
       </div>
   );
