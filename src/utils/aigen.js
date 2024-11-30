@@ -1,6 +1,6 @@
 import { OpenAI } from "openai";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAIKEY, dangerouslyAllowBrowser: true });
+const openai = new OpenAI({ apiKey: process.env.REACT_APP_OPENAIKEY, dangerouslyAllowBrowser: true });
 
 export const eventMake = async (message, objects) => {
   const today = new Date();
